@@ -1,0 +1,12 @@
+<html t:type="Layout" title="Guess The Number"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+      xmlns:p="tapestry:parameter">
+
+<h3> Form </h3>
+<t:form>
+    <t:textfield t:value="amount"/>
+    <br/>
+    <t:textfield t:value = "rate"/>
+</t:form>
+
+</html>

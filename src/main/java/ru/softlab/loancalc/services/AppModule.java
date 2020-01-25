@@ -23,6 +23,7 @@ import java.io.IOException;
 public class AppModule {
     public static void bind(ServiceBinder binder) {
         // binder.bind(MyServiceInterface.class, MyServiceImpl.class);
+        binder.bind(PaymentCalculator.class, AnnuityLoanCalculator.class);
 
         // Make bind() calls on the binder object to define most IoC services.
         // Use service builder methods (example below) when the implementation

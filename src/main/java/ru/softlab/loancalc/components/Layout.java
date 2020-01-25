@@ -1,45 +1,45 @@
 package ru.softlab.loancalc.components;
 
-import org.apache.tapestry5.*;
-import org.apache.tapestry5.annotations.*;
-import org.apache.tapestry5.ioc.annotations.*;
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.annotations.Import;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 
 /**
  * Layout component for pages of application test-project.
  */
-@Import(module="bootstrap/collapse")
-public class Layout
-{
-  @Inject
-  private ComponentResources resources;
+@Import(module = "bootstrap/collapse")
+public class Layout {
 
-  /**
-   * The page title, for the <title> element and the <h1> element.
-   */
-  @Property
-  @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
-  private String title;
+    @Inject
+    private ComponentResources resources;
 
-  @Property
-  private String pageName;
+    /**
+     * The page title, for the <title> element and the <h1> element.
+     */
+    @Property
+    @Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
+    private String title;
 
-  @Property
-  @Inject
-  @Symbol(SymbolConstants.APPLICATION_VERSION)
-  private String appVersion;
+    @Property
+    private String pageName;
 
-  public String getClassForPageName()
-  {
-    return resources.getPageName().equalsIgnoreCase(pageName)
-        ? "active"
-        : null;
-  }
+    @Property
+    @Inject
+    @Symbol(SymbolConstants.APPLICATION_VERSION)
+    private String appVersion;
 
-  public String[] getPageNames()
-  {
-    return new String[]{"Index", "About", "Contact"};
-  }
+    public String getClassForPageName() {
+        return resources.getPageName().equalsIgnoreCase(pageName)
+                ? "active"
+                : null;
+    }
 
+    public String[] getPageNames() {
+        return new String[]{"Index", "About", "Contact"};
+    }
 }
