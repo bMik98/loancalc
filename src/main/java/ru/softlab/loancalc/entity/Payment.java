@@ -8,7 +8,7 @@ public class Payment {
     private Date date;                  // Месяц/год
     private double principalPayment;    // Платеж по основному долгу
     private double interestPayment;     // Платеж по процентам
-    private double principalBalance;    // Остаток основного долга
+    private double balance;    // Остаток основного долга
     private double totalPayment;        // Общая сумма платежа
 
     public int getNumber() {
@@ -43,12 +43,12 @@ public class Payment {
         this.interestPayment = interestPayment;
     }
 
-    public double getPrincipalBalance() {
-        return principalBalance;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setPrincipalBalance(double principalBalance) {
-        this.principalBalance = principalBalance;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public double getTotalPayment() {

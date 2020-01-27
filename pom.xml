@@ -1,12 +1,25 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ru.softlab.test</groupId>
+    <groupId>ru.softlab.loancalc</groupId>
     <artifactId>loancalc</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>loancalc Tapestry 5 Application</name>
-        <dependencies>
+    <name>Loan Repayment Calculator</name>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tapestry-release-version>5.4.5</tapestry-release-version>
+        <servlet-api-release-version>2.5</servlet-api-release-version>
+        <testng-release-version>6.8.21</testng-release-version>
+        <slf4j-release-version>1.7.19</slf4j-release-version>
+    </properties>
+
+    <dependencies>
         <!-- To set up an application with a database, change the artifactId below to
              tapestry-hibernate, and add a dependency on your JDBC driver. You'll also
              need to add Hibernate configuration files, such as hibernate.cfg.xml. -->
@@ -22,7 +35,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-release-version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.apache.tapestry</groupId>
@@ -82,8 +94,8 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <optimize>true</optimize>
                 </configuration>
             </plugin>
@@ -125,8 +137,7 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
     <reporting/>
 
     <repositories>
-
-      <repository>
+        <repository>
             <id>jboss</id>
             <url>http://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
@@ -139,13 +150,4 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         </repository>
     </repositories>
 
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tapestry-release-version>5.4.5</tapestry-release-version>
-        <servlet-api-release-version>2.5</servlet-api-release-version>
-        <testng-release-version>6.8.21</testng-release-version>
-        <slf4j-release-version>1.7.19</slf4j-release-version>
-    </properties>
 </project>
