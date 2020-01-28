@@ -57,11 +57,12 @@
 
     <hr/>
 
-    <footer>
+    <div class="navbar navbar-bottom">
         <p>&copy; SoftLab 2020</p>
-    </footer>
-
+    </div>
 </div> <!-- /container -->
+
+
 
 </body>
 </html>

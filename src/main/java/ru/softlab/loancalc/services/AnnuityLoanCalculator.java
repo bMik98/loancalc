@@ -5,11 +5,15 @@ import ru.softlab.loancalc.entity.Payment;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AnnuityLoanCalculator implements PaymentCalculator {
+
+    private static final String DATE_FORMAT = "MM/yyyy";
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     @Override
     public List<Payment> getPayments(LoanRequest loanRequest) {
@@ -18,10 +22,11 @@ public class AnnuityLoanCalculator implements PaymentCalculator {
         final BigDecimal monthlyInterestRate = BigDecimal.valueOf(loanRequest.getInterestRate() / 100 / 12);
         final BigDecimal monthlyPayment = calculateMonthlyPayment(loanRequest.getAmount(), monthlyInterestRate, loanRequest.getTermInMonths());
         BigDecimal balance = BigDecimal.valueOf(loanRequest.getAmount());
+        final LocalDate today = LocalDate.now();
         for (int i = 1; i <= numberOfMonths; i++) {
             Payment payment = new Payment();
             payment.setNumber(i);
-            payment.setDate(new Date());
+            payment.setMonthOfYear(createFormattedPaymentDate(today, i));
             BigDecimal interest = calculateMonthlyInterest(balance, monthlyInterestRate);
             payment.setInterestPayment(interest.doubleValue());
             BigDecimal principalPayment = monthlyPayment.subtract(interest).setScale(2, RoundingMode.HALF_UP);
@@ -36,13 +41,13 @@ public class AnnuityLoanCalculator implements PaymentCalculator {
 
     /**
      * Calculates monthly payment.
-     *
+     * <p>
      * Based on formula:
      * P = S * (i * (1 + i)^n / ((1 + i)^n - 1))
      * where:
-     *      S - starting loan amount
-     *      i - monthly interest rate
-     *      n - number of month
+     * S - starting loan amount
+     * i - monthly interest rate
+     * n - number of month
      */
     private BigDecimal calculateMonthlyPayment(double startingAmount, BigDecimal monthlyInterestRate, int numberOfMonths) {
         BigDecimal amount = BigDecimal.valueOf(startingAmount);
@@ -53,5 +58,10 @@ public class AnnuityLoanCalculator implements PaymentCalculator {
 
     private BigDecimal calculateMonthlyInterest(BigDecimal balance, BigDecimal monthlyInterestRate) {
         return balance.multiply(monthlyInterestRate).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private String createFormattedPaymentDate(LocalDate today, int numberOfMonth) {
+        LocalDate paymentMonth = today.plusMonths(numberOfMonth);
+        return dateFormat.format(paymentMonth);
     }
 }

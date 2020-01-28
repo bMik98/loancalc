@@ -1,11 +1,9 @@
 package ru.softlab.loancalc.entity;
 
-import java.util.Date;
-
 public class Payment {
 
     private int number;                 // Номер платежа
-    private Date date;                  // Месяц/год
+    private String monthOfYear;                  // Месяц/год
     private double principalPayment;    // Платеж по основному долгу
     private double interestPayment;     // Платеж по процентам
     private double balance;    // Остаток основного долга
@@ -19,12 +17,12 @@ public class Payment {
         this.number = number;
     }
 
-    public Date getDate() {
-        return date;
+    public String getMonthOfYear() {
+        return monthOfYear;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMonthOfYear(String monthOfYear) {
+        this.monthOfYear = monthOfYear;
     }
 
     public double getPrincipalPayment() {
