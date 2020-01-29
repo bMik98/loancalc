@@ -1,10 +1,11 @@
 package ru.softlab.loancalc.pages;
 
-
-import org.apache.tapestry5.Block;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.annotations.*;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.HttpError;
@@ -20,6 +21,17 @@ import java.util.List;
  * Start page of application loancalc.
  */
 public class Index {
+
+    private static final int MIN_AMOUNT = 100_000;
+    private static final double MIN_INTEREST_RATE = 12.9;
+    private static final int MIN_TERM_IN_MONTHS = 12;
+    private static final int MAX_AMOUNT = 500_000;
+    private static final double MAX_INTEREST_RATE = 23.9;
+    private static final int MAX_TERM_IN_MONTHS = 60;
+
+    @Parameter(value = "12")
+    private int minTermsInMonths;
+
     @Inject
     private Logger logger;
 
@@ -30,12 +42,6 @@ public class Index {
     @Inject
     @Symbol(SymbolConstants.TAPESTRY_VERSION)
     private String tapestryVersion;
-
-    @InjectPage
-    private About about;
-
-    @Inject
-    private Block block;
 
     @Persist
     @Property
@@ -66,33 +72,30 @@ public class Index {
                 null;
     }
 
-    @Log
-    void onSubmitFromRequestForm() {
-        payments = paymentCalculator.getPayments(new LoanRequest(loanAmount, loanRate, loanTermInMonths));
-        logger.debug("Submit button was pressed! {}", loanAmount);
+    @SetupRender
+    public void initFormValues() {
+        if (loanAmount < MIN_AMOUNT || loanAmount > MAX_AMOUNT) {
+            loanAmount = MIN_AMOUNT;
+        }
+        if (loanRate < MIN_INTEREST_RATE || loanRate > MAX_INTEREST_RATE) {
+            loanRate = MIN_INTEREST_RATE;
+        }
+        if (loanTermInMonths < MIN_TERM_IN_MONTHS || loanTermInMonths > MAX_TERM_IN_MONTHS) {
+            loanTermInMonths = MIN_TERM_IN_MONTHS;
+        }
     }
 
-//    Object onActionFromLearnMore() {
-//        about.setLearn("LearnMore");
-//
-//        return about;
-//    }
+    public int getMinAmount() {
+        return MIN_AMOUNT;
+    }
 
-//    @Log
-//    void onComplete() {
-//        logger.info("Complete call on Index page");
-//    }
-//
-//    @Log
-//    void onAjax() {
-//        logger.info("Ajax call on Index page");
-//
-//        ajaxResponseRenderer.addRender("middlezone", block);
-//    }
+    void onCalculate() {
+        payments = paymentCalculator.getPayments(new LoanRequest(loanAmount, loanRate, loanTermInMonths));
+    }
 
-
-//    public Date getCurrentTime() {
-//        return new Date();
-//    }
-
+    void onReset() {
+        loanAmount = MIN_AMOUNT;
+        loanRate = MIN_INTEREST_RATE;
+        loanTermInMonths = MIN_TERM_IN_MONTHS;
+    }
 }
