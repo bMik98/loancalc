@@ -35,6 +35,7 @@
 </div>
 
 <div>
+    <br/>
     <table t:type="grid" source="payments" empty="emptyBlock" rowsPerPage="12" pagerPosition="top"/>
     <t:block id="emptyBlock">No payments yet</t:block>
 </div>
