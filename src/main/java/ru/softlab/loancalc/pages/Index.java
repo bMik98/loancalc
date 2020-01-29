@@ -1,16 +1,11 @@
 package ru.softlab.loancalc.pages;
 
 import org.apache.tapestry5.EventContext;
-import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.HttpError;
-import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
-import org.slf4j.Logger;
 import ru.softlab.loancalc.entity.LoanRequest;
 import ru.softlab.loancalc.entity.Payment;
 import ru.softlab.loancalc.services.PaymentCalculator;
@@ -23,25 +18,14 @@ import java.util.List;
 public class Index {
 
     private static final int MIN_AMOUNT = 100_000;
-    private static final double MIN_INTEREST_RATE = 12.9;
-    private static final int MIN_TERM_IN_MONTHS = 12;
     private static final int MAX_AMOUNT = 500_000;
+    private static final int AMOUNT_STEP = 10_000;
+    private static final double MIN_INTEREST_RATE = 12.9;
     private static final double MAX_INTEREST_RATE = 23.9;
+    private static final double INTEREST_RATE_STEP = 0.1;
+    private static final int MIN_TERM_IN_MONTHS = 12;
     private static final int MAX_TERM_IN_MONTHS = 60;
-
-    @Parameter(value = "12")
-    private int minTermsInMonths;
-
-    @Inject
-    private Logger logger;
-
-    @Inject
-    private AjaxResponseRenderer ajaxResponseRenderer;
-
-    @Property
-    @Inject
-    @Symbol(SymbolConstants.TAPESTRY_VERSION)
-    private String tapestryVersion;
+    private static final int TERM_IN_MONTHS_STEP = 1;
 
     @Persist
     @Property
@@ -53,7 +37,7 @@ public class Index {
 
     @Persist
     @Property
-    private double loanRate;
+    private double loanInterestRate;
 
     @Inject
     private PaymentCalculator paymentCalculator;
@@ -77,8 +61,8 @@ public class Index {
         if (loanAmount < MIN_AMOUNT || loanAmount > MAX_AMOUNT) {
             loanAmount = MIN_AMOUNT;
         }
-        if (loanRate < MIN_INTEREST_RATE || loanRate > MAX_INTEREST_RATE) {
-            loanRate = MIN_INTEREST_RATE;
+        if (loanInterestRate < MIN_INTEREST_RATE || loanInterestRate > MAX_INTEREST_RATE) {
+            loanInterestRate = MIN_INTEREST_RATE;
         }
         if (loanTermInMonths < MIN_TERM_IN_MONTHS || loanTermInMonths > MAX_TERM_IN_MONTHS) {
             loanTermInMonths = MIN_TERM_IN_MONTHS;
@@ -89,13 +73,39 @@ public class Index {
         return MIN_AMOUNT;
     }
 
-    void onCalculate() {
-        payments = paymentCalculator.getPayments(new LoanRequest(loanAmount, loanRate, loanTermInMonths));
+    public int getMaxAmount() {
+        return MAX_AMOUNT;
     }
 
-    void onReset() {
-        loanAmount = MIN_AMOUNT;
-        loanRate = MIN_INTEREST_RATE;
-        loanTermInMonths = MIN_TERM_IN_MONTHS;
+    public int getAmountStep() {
+        return AMOUNT_STEP;
+    }
+
+    public double getMinInterestRate() {
+        return MIN_INTEREST_RATE;
+    }
+
+    public double getMaxInterestRate() {
+        return MAX_INTEREST_RATE;
+    }
+
+    public double getInterestRateStep() {
+        return INTEREST_RATE_STEP;
+    }
+
+    public int getMinTermInMonths() {
+        return MIN_TERM_IN_MONTHS;
+    }
+
+    public int getMaxTermInMonths() {
+        return MAX_TERM_IN_MONTHS;
+    }
+
+    public int getTermInMonthsStep() {
+        return TERM_IN_MONTHS_STEP;
+    }
+
+    void onCalculate() {
+        payments = paymentCalculator.getPayments(new LoanRequest(loanAmount, loanInterestRate, loanTermInMonths));
     }
 }

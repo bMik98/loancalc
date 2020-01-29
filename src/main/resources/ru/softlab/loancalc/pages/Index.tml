@@ -17,24 +17,20 @@
         <div class="form-row">
             <div class="col-sm-3">
                 <input type="number" t:id="loanAmount" t:type="TextField" t:value="loanAmount"
-                       min="${minAmount}" max="5000000" step="10000"/>
+                       min="${minAmount}" max="${maxAmount}" step="${amountStep}"/>
             </div>
             <div class="col-sm-3">
                 <input type="number" t:id="loanTermInMonths" t:type="TextField" t:value="loanTermInMonths"
-                       min="12" max="60"/>
+                       min="${minTermInMonths}" max="${maxTermInMonths}" step="${termInMonthsStep}"/>
             </div>
             <div class="col-sm-3">
-                <input type="number" id="loanRate" t:id="loanRate" t:type="TextField" t:value="loanRate"
-                       min="12.9" max="23.9" step="0.1"/>
+                <input type="number" id="loanInterestRate" t:id="loanRate" t:type="TextField" t:value="loanInterestRate"
+                       min="${minInterestRate}" max="${maxInterestRate}" step="${interestRateStep}"/>
             </div>
             <div class="col-sm-3">
                 <div class="btn-group btn-group-justified" role="group">
                     <div class="btn-group" role="group">
-                        <input type="submit" style="background-color: #0f0f0f" t:type="submit"
-                               value="Reset" event="reset"/>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <input class="btn btn-primary" type="submit" t:type="submit"
+                        <input type="submit" t:type="submit"
                                value="Calculate" event="calculate"/>
                     </div>
                 </div>
@@ -45,8 +41,8 @@
 
 <div>
     <br/>
-    <table t:type="grid" source="payments" empty="emptySchedule" rowsPerPage="12" pagerPosition="top"/>
-    <t:block id="emptySchedule">Empty</t:block>
+    <table t:type="grid" source="payments" empty="EmptySchedule" rowsPerPage="${maxTermInMonths}" pagerPosition="none"/>
+    <t:block id="EmptySchedule">Empty</t:block>
 </div>
 
 </html>
